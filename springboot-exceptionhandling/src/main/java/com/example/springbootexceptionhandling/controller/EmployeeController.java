@@ -21,9 +21,9 @@ public class EmployeeController {
 
 		Employee emp = employeeService.getEmployee();
 
-		if (emp == null) {
+		if (emp == null) 
 			throw new ResourceNotFoundException("Employee not found");
-		}
+		
 		return emp;
 	}
 
@@ -31,10 +31,9 @@ public class EmployeeController {
 	public Employee getEmp2() throws ResourceNotFoundException, EmployeeServiceException {
 
 		Employee emp = employeeService.getEmployeeNull();
-		if (emp == null) {
+		if (emp == null) 
 			throw new ResourceNotFoundException("Employee not found");
-		}
-
+		
 		return emp;
 	}
 
@@ -42,9 +41,9 @@ public class EmployeeController {
 	public Employee getEmp3() throws ResourceNotFoundException, EmployeeServiceException {
 		try {
 			Employee emp = employeeService.getEmployeeException();
-			if (emp == null) {
+			if (emp == null) 
 				throw new ResourceNotFoundException("Employee not found");
-			}
+			
 			return emp;
 		} catch (EmployeeServiceException e) {
 			throw new EmployeeServiceException("Internal Server Exception while getting exception");

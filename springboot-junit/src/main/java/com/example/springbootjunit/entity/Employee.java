@@ -9,7 +9,7 @@ public class Employee {
 	@Autowired
 	public Employee() {
 	}
-	
+
 	public Employee(String name, int monthlySalary, int age) {
 		super();
 		this.name = name;
@@ -46,6 +46,11 @@ public class Employee {
 	}
 
 	public Employee getEmployee() {
-		return new Employee("getNAme",1000,32);
+		return new Employee("Employee 1", 1000, 32);
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", monthlySalary=" + monthlySalary + ", age=" + age + "]";
 	}
 }

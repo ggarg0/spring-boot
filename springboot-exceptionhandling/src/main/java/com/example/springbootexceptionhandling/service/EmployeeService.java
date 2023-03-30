@@ -13,7 +13,7 @@ public class EmployeeService {
 		emp.setName("emp1");
 		emp.setDesignation("manager");
 		emp.setEmpId("1");
-		emp.setSalary(3000);
+		emp.setSalary(2000);
 
 		return emp;
 	}

@@ -14,14 +14,10 @@ public class SpringbootJunitApplication {
 
 		try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
 				SpringbootJunitApplication.class)) {
-
 			EmployeeService empLogic = applicationContext.getBean(EmployeeService.class);
-			Employee emp = applicationContext.getBean(Employee.class);
-
-			System.out.println(empLogic.calculateYearlySalary(emp.getEmployee()));
-			// System.out.println(componentJDBC);
+			Employee emp = applicationContext.getBean(Employee.class).getEmployee();
+			System.out.println("Salary : " + empLogic.calculateYearlySalary(emp));
+			System.out.println("Employee Details : " + emp.toString());
 		}
-
 	}
-
 }

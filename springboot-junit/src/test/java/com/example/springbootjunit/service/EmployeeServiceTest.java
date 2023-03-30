@@ -21,6 +21,7 @@ import com.example.springbootjunit.entity.Employee;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeServiceTest {
+	
 	@InjectMocks
 	EmployeeService empService;
 
@@ -54,7 +55,6 @@ public class EmployeeServiceTest {
 	}
 
 	@Test
-	@Timeout(3)
 	public void testCalculateYearlySalary() {
 		int salary = empService.calculateYearlySalary(employee);
 		System.out.println("salary ... " + salary);
