@@ -7,7 +7,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,20 +18,19 @@ public class SecurityConfig {
 
 	@Bean
 	public UserDetailsService userDetailsService() {
-		// User Role
-		UserDetails theUser = User.withUsername("user")
-				.passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode).password("pass")
+		UserDetails user = User.withUsername("user")
+				.passwordEncoder(bCryptPasswordEncoder()::encode).password("pass")
 				.roles("USER").build();
 
-		// Manager Role
-		UserDetails theManager = User.withUsername("admin")
-				.passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode).password("pass")
+		UserDetails admin = User.withUsername("admin")
+				//.passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode).password("pass")
+				.passwordEncoder(bCryptPasswordEncoder()::encode).password("pass")
 				.roles("ADMIN").build();
 
 		InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
 
-		userDetailsManager.createUser(theUser);
-		userDetailsManager.createUser(theManager);
+		userDetailsManager.createUser(user);
+		userDetailsManager.createUser(admin);
 
 		return userDetailsManager;
 	}
@@ -42,6 +43,11 @@ public class SecurityConfig {
 		.anyRequest().authenticated().and().httpBasic()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		return http.build();
+	}
+	
+	@Bean
+	public PasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder(10);
 	}
 
 }
