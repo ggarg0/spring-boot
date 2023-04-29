@@ -15,14 +15,6 @@ import com.demo.app.exception.BookNotFoundException;
 import com.demo.app.model.Tutorial;
 import com.demo.app.repository.TutorialRepository;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-@Tag(name = "Tutorial", description = "Tutorial management APIs")
 @RestController
 @RequestMapping("/api")
 public class TutorialController {
@@ -30,13 +22,6 @@ public class TutorialController {
 	@Autowired
 	private TutorialRepository repository;
 
-	@Operation(summary = "Retrieve all Tutorials", tags = { "Get", "Filter" })
-	@ApiResponses({
-			@ApiResponse(responseCode = "200", content = {
-					@Content(schema = @Schema(implementation = Tutorial.class), mediaType = "application/json") }),
-			@ApiResponse(responseCode = "204", description = "There are no Tutorials", content = {
-					@Content(schema = @Schema()) }),
-			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/tutorials")
 	public ResponseEntity<List<Tutorial>> getAllTutorials() {
 		try {
@@ -49,13 +34,6 @@ public class TutorialController {
 		}
 	}
 
-	@Operation(summary = "Retrieve a Tutorial by Id", description = "Get a Tutorial object by specifying its id. The response is Tutorial object with id, title, description and published status.", tags = {
-			"Get" })
-	@ApiResponses({
-			@ApiResponse(responseCode = "200", content = {
-					@Content(schema = @Schema(implementation = Tutorial.class), mediaType = "application/json") }),
-			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/tutorials/{id}")
 	public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
 		try {
@@ -69,9 +47,6 @@ public class TutorialController {
 		}
 	}
 
-	@Operation(summary = "Delete a Tutorial by Id", tags = { "Delete" })
-	@ApiResponses({ @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@DeleteMapping("/tutorials/{id}")
 	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
 		try {
@@ -82,9 +57,6 @@ public class TutorialController {
 		}
 	}
 
-	@Operation(summary = "Delete all Tutorials", tags = { "Delete" })
-	@ApiResponses({ @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@DeleteMapping("/tutorials")
 	public ResponseEntity<HttpStatus> deleteAllTutorials() {
 		try {
