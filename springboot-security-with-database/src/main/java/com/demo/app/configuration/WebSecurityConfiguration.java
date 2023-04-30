@@ -31,15 +31,15 @@ public class WebSecurityConfiguration {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable()
 				.securityMatcher("/api/**") 
-				.authorizeHttpRequests(authorize -> authorize	
-						.requestMatchers("/api/users").permitAll() 
-						.requestMatchers("/api/tutorials").hasRole("ADMIN")       
-						.requestMatchers("/api/books").hasAnyRole("ADMIN", "DEVELOPER")    
-						.requestMatchers("/api/user/**").permitAll() 
-						.anyRequest().authenticated()                      
-					)
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authenticationProvider(authenticationProvider())
+				.authorizeHttpRequests(authorize -> authorize	 
+						.requestMatchers("/api/tutorials/**").hasRole("ADMIN")       
+						.requestMatchers("/api/books/**").hasAnyRole("ADMIN", "DEVELOPER")    
+						.requestMatchers("/api/users/**").permitAll() 
+						.anyRequest().authenticated()
+					)               
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().httpBasic()
+				.and().authenticationProvider(authenticationProvider())                
                 .build();
 	}
 

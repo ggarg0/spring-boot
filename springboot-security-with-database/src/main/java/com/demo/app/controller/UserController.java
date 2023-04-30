@@ -31,7 +31,7 @@ public class UserController {
 		return userService.retrieveAllUsers();
 	}
 
-	@PostMapping(value = "/api/user/authenticate")
+	@PostMapping(value = "/api/users/authenticate")
 	public User authenticate(@RequestBody User user) {
 		User userAuth = new User();
 		try {
