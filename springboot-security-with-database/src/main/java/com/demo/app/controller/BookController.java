@@ -82,10 +82,7 @@ public class BookController {
 				return repository.save(newBook);
 			});
 
-			if (_book != null)
-				return new ResponseEntity<>(_book, HttpStatus.OK);
-			else
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(_book, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

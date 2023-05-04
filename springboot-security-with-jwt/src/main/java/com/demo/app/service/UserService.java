@@ -41,9 +41,7 @@ public class UserService implements UserDetailsService {
 	
 	public List<User> retrieveAllUsers() {
 		List<User> result = new ArrayList<>();
-		this.userRepository.findAll().forEach(user -> {
-			result.add(user);
-		});
+		this.userRepository.findAll().forEach(result::add);
 		return result;
 	}
 

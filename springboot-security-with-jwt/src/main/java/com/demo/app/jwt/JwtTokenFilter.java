@@ -36,23 +36,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain)
+	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException, RuntimeException {
 
-		HttpServletRequest request = (HttpServletRequest) req;
-		HttpServletResponse response = (HttpServletResponse) res;
-
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers",
+		((HttpServletResponse) response).setHeader("Access-Control-Allow-Origin", "*");
+		((HttpServletResponse) response).setHeader("Access-Control-Allow-Credentials", "true");
+		((HttpServletResponse) response).setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+		((HttpServletResponse) response).setHeader("Access-Control-Max-Age", "3600");
+		((HttpServletResponse) response).setHeader("Access-Control-Allow-Headers",
 				"Access-Control-Allow-Headers, Origin, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Accept, X-Requested-With, remember-me, Authorization, Username, Role");
 
-		String usernameFromHeader = request.getHeader("Username");
+		String usernameFromHeader = ((HttpServletRequest) request).getHeader("Username");
 
 		try {
-			final String auth = request.getHeader("Authorization");
+			final String auth = ((HttpServletRequest) request).getHeader("Authorization");
 			final String token = auth == null || auth.contains("null") ? null : auth.split(" ", 2)[1];
 			if (null != token && null != usernameFromHeader && !tokenProvider.isTokenExpired(token)
 					&& SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -65,12 +62,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 						userDetails, null, userDetails.getAuthorities());
 				if (usernamePasswordAuthenticationToken.isAuthenticated()) {
 					usernamePasswordAuthenticationToken
-							.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+							.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-					if (logRequestedURL(request)) {
+					if (logRequestedURL((HttpServletRequest) request)) {
 						if (userDetails.getUsername() != null) {
 							logger.info("JwtTokenFilter : User {} and requested url : {}",
-									tokenProvider.extractUsername(token), request.getRequestURL());
+									tokenProvider.extractUsername(token), ((HttpServletRequest) request).getRequestURL());
 						}
 					}
 				}
@@ -79,21 +76,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 			SecurityContextHolder.clearContext();
 			if (e instanceof ExpiredJwtException) {
 				logger.error("Session expired for user {}", usernameFromHeader);
-				((HttpServletResponse) res).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			} else {
 				logger.error("User {} invalid token exception : {} ", usernameFromHeader, e.getMessage());
-				((HttpServletResponse) res).setStatus(HttpServletResponse.SC_FORBIDDEN);
+				((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FORBIDDEN);
 			}
 			return;
 		}
-		filterChain.doFilter(request, response);
+		filterChain.doFilter((HttpServletRequest) request, (HttpServletResponse) response);
 	}
 
 	public boolean logRequestedURL(HttpServletRequest req) {
-		boolean result = true;
-		if (req.getRequestURL().toString().contains("refreshjwttoken")) {
-			result = false;
-		}
-		return result;
+		return !req.getRequestURL().toString().contains("refreshjwttoken");
 	}
 }
