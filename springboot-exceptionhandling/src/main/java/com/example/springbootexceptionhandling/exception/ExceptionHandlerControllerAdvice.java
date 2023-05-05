@@ -25,6 +25,18 @@ public class ExceptionHandlerControllerAdvice {
 		return error;
 	}
 
+	@ExceptionHandler(EmployeeServiceException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public @ResponseBody ExceptionResponse handleEmployeeServiceException(final EmployeeServiceException exception,
+			final HttpServletRequest request) {
+
+		ExceptionResponse error = new ExceptionResponse();
+		error.setErrorMessage(exception.getMessage());
+		error.callerURL(request.getRequestURI());
+
+		return error;
+	}
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public @ResponseBody ExceptionResponse handleException(final Exception exception,
@@ -36,5 +48,4 @@ public class ExceptionHandlerControllerAdvice {
 
 		return error;
 	}
-
 }

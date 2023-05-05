@@ -2,10 +2,8 @@ package com.demo.app.entity;
 
 import com.demo.app.validator.Author;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +23,8 @@ public class Book {
 	private String author;
 
 	@NotNull(message = "Please provide a price")
-	@DecimalMin("1.00")
+	@DecimalMin(value = "1.00", message = "Invalid price: Equals to zero or Less than zero")
+	@DecimalMax(value = "100.00", message = "Invalid price: Exceeds 100")
 	private Float price;
 
 	public Book() {
