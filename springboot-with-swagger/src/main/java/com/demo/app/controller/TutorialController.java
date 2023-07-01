@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.app.exception.BookNotFoundException;
+import com.demo.app.exception.TutorialNotFound;
 import com.demo.app.model.Tutorial;
 import com.demo.app.repository.TutorialRepository;
 
@@ -39,14 +39,11 @@ public class TutorialController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/tutorials")
 	public ResponseEntity<List<Tutorial>> getAllTutorials() {
-		try {
-			List<Tutorial> tutorials = repository.findAll();
-			if (tutorials.isEmpty())
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			return new ResponseEntity<>(tutorials, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+
+		List<Tutorial> tutorials = repository.findAll();
+		if (tutorials.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(tutorials, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Retrieve a Tutorial by Id", description = "Get a Tutorial object by specifying its id. The response is Tutorial object with id, title, description and published status.", tags = {
@@ -58,15 +55,11 @@ public class TutorialController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/tutorials/{id}")
 	public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
-		try {
-			Tutorial tutorial = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
-			if (tutorial != null)
-				return new ResponseEntity<>(tutorial, HttpStatus.OK);
-			else
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		Tutorial tutorial = repository.findById(id).orElseThrow(() -> new TutorialNotFound(id));
+		if (tutorial != null)
+			return new ResponseEntity<>(tutorial, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@Operation(summary = "Delete a Tutorial by Id", tags = { "Delete" })
@@ -74,12 +67,8 @@ public class TutorialController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@DeleteMapping("/tutorials/{id}")
 	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
-		try {
-			repository.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		repository.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@Operation(summary = "Delete all Tutorials", tags = { "Delete" })
@@ -87,13 +76,7 @@ public class TutorialController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@DeleteMapping("/tutorials")
 	public ResponseEntity<HttpStatus> deleteAllTutorials() {
-		try {
-			repository.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
+		repository.deleteAll();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-
 }

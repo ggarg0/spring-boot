@@ -2,16 +2,11 @@ package com.demo.app.exception;
 
 import java.io.IOException;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
@@ -25,11 +20,12 @@ public class CustomGlobalExceptionHandler {
         return buildResponseEntity(new APIError(HttpStatus.BAD_REQUEST, error, ex));
     }
 
+
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<Object> hanldeBookNotFoundException(BookNotFoundException ex, HttpServletResponse response) throws IOException {
         System.out.println("BookNotFoundException called");
         String error = "Book not found";
-        return buildResponseEntity(new APIError(HttpStatus.NOT_FOUND, error, ex));
+        return buildResponseEntity(new APIError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)

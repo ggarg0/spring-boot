@@ -80,16 +80,11 @@ public class BookController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/books/{id}")
 	ResponseEntity<Book> findOne(@PathVariable @Min(1) Long id) {
-		try {
-			Book _book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
-			if (_book != null)
-				return new ResponseEntity<>(_book, HttpStatus.OK);
-			else
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		Book _book = repository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+		if (_book != null)
+			return new ResponseEntity<>(_book, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@Operation(summary = "Update a Book by Id", tags = { "Put" })
