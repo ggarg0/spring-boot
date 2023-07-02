@@ -23,7 +23,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 
@@ -38,20 +38,13 @@ public class UserController {
 	@PostMapping(value = "/api/users/authenticate")
 	public User authenticate(@RequestBody User user) {
 		User userAuth = new User();
-		try {
-			Authentication authentication = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-			if (authentication.isAuthenticated()) {
-				userAuth = (User) authentication.getPrincipal();
-				userAuth.setPassword("");
-				userAuth.setMessage(jwtTokenProvider.generateToken(userAuth.getUsername()));
-			}
-		} catch (BadCredentialsException e) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+		if (authentication.isAuthenticated()) {
+			userAuth = (User) authentication.getPrincipal();
+			userAuth.setPassword("");
+			userAuth.setMessage(jwtTokenProvider.generateToken(userAuth.getUsername()));
 		}
 		return userAuth;
 	}
-
 }
