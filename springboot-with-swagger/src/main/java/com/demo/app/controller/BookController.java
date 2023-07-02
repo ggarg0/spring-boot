@@ -45,14 +45,10 @@ public class BookController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@GetMapping("/books")
 	ResponseEntity<List<Book>> findAll() {
-		try {
-			List<Book> list = repository.findAll();
-			if (list.isEmpty())
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		List<Book> list = repository.findAll();
+		if (list.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Add a new Book", tags = { "Post" })
@@ -63,12 +59,8 @@ public class BookController {
 	@PostMapping("/books")
 	@ResponseStatus(HttpStatus.CREATED)
 	ResponseEntity<Book> newBook(@Valid @RequestBody Book newBook) {
-		try {
-			Book _book = repository.save(newBook);
-			return new ResponseEntity<>(_book, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		Book _book = repository.save(newBook);
+		return new ResponseEntity<>(_book, HttpStatus.CREATED);
 	}
 
 	@Operation(summary = "Retrieve a Book by Id", description = "Get a Book object by specifying its id.", tags = {
@@ -95,24 +87,20 @@ public class BookController {
 			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }) })
 	@PutMapping("/books/{id}")
 	ResponseEntity<Book> saveOrUpdate(@Valid @RequestBody Book newBook, @PathVariable Long id) {
-		try {
-			Book _book = repository.findById(id).map(x -> {
-				x.setName(newBook.getName());
-				x.setAuthor(newBook.getAuthor());
-				x.setPrice(newBook.getPrice());
-				return repository.save(x);
-			}).orElseGet(() -> {
-				newBook.setId(id);
-				return repository.save(newBook);
-			});
+		Book _book = repository.findById(id).map(x -> {
+			x.setName(newBook.getName());
+			x.setAuthor(newBook.getAuthor());
+			x.setPrice(newBook.getPrice());
+			return repository.save(x);
+		}).orElseGet(() -> {
+			newBook.setId(id);
+			return repository.save(newBook);
+		});
 
-			if (_book != null)
-				return new ResponseEntity<>(_book, HttpStatus.OK);
-			else
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		if (_book != null)
+			return new ResponseEntity<>(_book, HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@Operation(summary = "Delete Book by id", tags = { "Delete" })
@@ -120,11 +108,7 @@ public class BookController {
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@DeleteMapping("/books/{id}")
 	ResponseEntity<HttpStatus> deleteBook(@PathVariable Long id) {
-		try {
-			repository.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		repository.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

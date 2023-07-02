@@ -46,7 +46,6 @@ public class BookController {
 
 	@PutMapping("/books/{id}")
 	Book saveOrUpdate(@Valid @RequestBody Book newBook, @PathVariable Long id) {
-
 		return repository.findById(id).map(x -> {
 			x.setName(newBook.getName());
 			x.setAuthor(newBook.getAuthor());

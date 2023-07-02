@@ -18,7 +18,6 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employee", method = RequestMethod.GET)
 	public Employee getEmpl() throws ResourceNotFoundException, EmployeeServiceException {
-
 		Employee emp = employeeService.getEmployee();
 
 		if (emp == null)
@@ -29,7 +28,6 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employee2", method = RequestMethod.GET)
 	public Employee getEmp2() throws ResourceNotFoundException, EmployeeServiceException {
-
 		Employee emp = employeeService.getEmployeeNull();
 		if (emp == null)
 			throw new ResourceNotFoundException("Employee not found");
@@ -39,27 +37,19 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employee3", method = RequestMethod.GET)
 	public Employee getEmp3() throws ResourceNotFoundException, EmployeeServiceException {
-		try {
-			Employee emp = employeeService.getEmployeeException();
-			if (emp == null)
-				throw new ResourceNotFoundException("Employee not found");
+		Employee emp = employeeService.getEmployeeException();
+		if (emp == null)
+			throw new ResourceNotFoundException("Employee not found");
 
-			return emp;
-		} catch (EmployeeServiceException e) {
-			throw new EmployeeServiceException("Bad Request for employee service");
-		}
+		return emp;
 	}
 
 	@RequestMapping(value = "/employee4", method = RequestMethod.GET)
 	public Employee getEm4() throws Exception {
-		try {
-			Employee emp = employeeService.getEmployeeNull();
-			if (emp == null)
-				throw new Exception();
+		Employee emp = employeeService.getEmployeeNull();
+		if (emp == null)
+			throw new Exception("Generic employee exception");
 
-			return emp;
-		} catch (Exception e) {
-			throw new Exception("Internal server exception for employee service");
-		}
+		return emp;
 	}
 }

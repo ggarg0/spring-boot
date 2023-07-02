@@ -14,7 +14,6 @@ public class EmployeeService {
 		emp.setDesignation("manager");
 		emp.setEmpId("1");
 		emp.setSalary(2000);
-
 		return emp;
 	}
 
@@ -23,8 +22,7 @@ public class EmployeeService {
 	}
 
 	public Employee getEmployeeException() throws EmployeeServiceException {
-
-		throw new EmployeeServiceException();
+		throw new EmployeeServiceException("Employee exception occurred");
 	}
 
 }
