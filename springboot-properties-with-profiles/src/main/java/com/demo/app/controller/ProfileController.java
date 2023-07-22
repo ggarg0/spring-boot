@@ -15,7 +15,7 @@ public class ProfileController {
 	@Autowired
 	DBConfiguration config;
 	
-	@GetMapping("/welcome")
+	@GetMapping("/hello")
 	public String getDataBaseConnectionDetails() {
 		System.out.println(config.toString());
 		return welcomeMessage + "  :  " + config.toString();

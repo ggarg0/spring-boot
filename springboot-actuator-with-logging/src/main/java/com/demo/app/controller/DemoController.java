@@ -21,7 +21,7 @@ public class DemoController {
 	@GetMapping("/hello")
 	@ResponseBody
 	public Greeting sayHello(@RequestParam(name = "name", required = false, defaultValue = "Stranger") String name) {
-		logger.info("Fetching greeting details for " + name);
+		logger.info("Fetching greeting details for the user : " + name);
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 }
