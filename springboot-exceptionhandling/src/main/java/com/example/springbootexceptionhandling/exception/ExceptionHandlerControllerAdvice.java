@@ -21,7 +21,7 @@ public class ExceptionHandlerControllerAdvice {
 		ExceptionResponse error = new ExceptionResponse();
 		error.setErrorMessage(exception.getMessage());
 		error.callerURL(request.getRequestURI());
-
+		exception.printStackTrace();
 		return error;
 	}
 

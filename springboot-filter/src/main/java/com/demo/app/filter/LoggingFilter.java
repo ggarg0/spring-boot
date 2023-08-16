@@ -12,7 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
-@Order(2)
+@Order(3)
 @Component
 public class LoggingFilter implements Filter {
 
