@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS tutorials;
 
 create table tutorials

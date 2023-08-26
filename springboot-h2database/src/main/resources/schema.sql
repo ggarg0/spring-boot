@@ -6,3 +6,11 @@ create table person
    birthdate timestamp,
    primary key(id)
 );
+
+DROP TABLE IF EXISTS Book;
+CREATE TABLE Book (           
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(250) NOT NULL,
+    author VARCHAR(250) NOT NULL,
+    price FLOAT
+);

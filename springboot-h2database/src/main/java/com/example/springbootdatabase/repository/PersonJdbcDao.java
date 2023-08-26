@@ -1,4 +1,4 @@
-package com.example.springbootdatabase.Jdbc;
+package com.example.springbootdatabase.repository;
 
 import java.util.List;
 

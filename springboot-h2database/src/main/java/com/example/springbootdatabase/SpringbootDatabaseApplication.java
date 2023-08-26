@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.springbootdatabase.Jdbc.PersonJdbcDao;
+import com.example.springbootdatabase.repository.PersonJdbcDao;
 
 @SpringBootApplication
 public class SpringbootDatabaseApplication implements CommandLineRunner {
@@ -17,6 +17,7 @@ public class SpringbootDatabaseApplication implements CommandLineRunner {
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	PersonJdbcDao personDao;
 
