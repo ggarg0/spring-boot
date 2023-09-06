@@ -17,7 +17,7 @@ public class EmployeeService {
 		return emp;
 	}
 
-	public Employee getEmployeeNull() throws EmployeeServiceException {
+	public Employee getEmployeeNull() {
 		return null;
 	}
 

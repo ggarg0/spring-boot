@@ -45,11 +45,9 @@ public class EmployeeController {
 	}
 
 	@RequestMapping(value = "/employee4", method = RequestMethod.GET)
-	public Employee getEm4() throws Exception {
+	public Employee getEmp4() {
 		Employee emp = employeeService.getEmployeeNull();
-		if (emp == null)
-			throw new Exception("Generic employee exception");
-
+		System.out.println(emp.toString());
 		return emp;
 	}
 }
