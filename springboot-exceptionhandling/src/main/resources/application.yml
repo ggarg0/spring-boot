@@ -8,3 +8,5 @@ spring:
 logging:
      level:
          root: INFO
+     file:     
+         name: C://Tools//springboot//logs/springboot-exceptionhandling.log 
