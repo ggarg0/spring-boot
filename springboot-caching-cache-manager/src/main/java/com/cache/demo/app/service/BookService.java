@@ -23,7 +23,7 @@ public class BookService {
 	@Autowired
 	private BookRepository repository;
 
-	@Cacheable(value = "book")
+	@Cacheable(value = "books")
 	public List<Book> findAll() {
 		System.out.println("Calling findAll from service");
 		return repository.findAll();
@@ -56,13 +56,13 @@ public class BookService {
 		return book;
 	}
 
-	@Caching(evict = { @CacheEvict(value = "book", key = "#id") })
+	@Caching(evict = { @CacheEvict(value = "books", key = "#id"), @CacheEvict(value = "book", key = "#id") })
 	public void deleteBook(@PathVariable Long id) {
 		System.out.println("Calling deleteBook from service");
 		repository.deleteById(id);
 	}
 
-	@CacheEvict(value = { "book" }, allEntries = true)
+	@CacheEvict(value = { "book", "books" }, allEntries = true)
 	public void deleteAllBook() {
 		System.out.println("Calling deleteAllBook from service");
 		repository.deleteAll();

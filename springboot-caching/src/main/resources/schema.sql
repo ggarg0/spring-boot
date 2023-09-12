@@ -5,11 +5,3 @@ CREATE TABLE Book (
     author VARCHAR(250) NOT NULL,
     price FLOAT
 );
-
-DROP TABLE IF EXISTS Tutorial;
-CREATE TABLE Tutorial (           
-	id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(250) NOT NULL,
-    description VARCHAR(250) NOT NULL,
-    published VARCHAR(50) NOT NULL
-);
