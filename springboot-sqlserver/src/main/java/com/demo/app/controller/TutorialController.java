@@ -47,16 +47,16 @@ public class TutorialController {
 	public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
 		Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 		return tutorialData.map(tutorial -> new ResponseEntity<>(tutorial, HttpStatus.OK))
-				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
 	}
-
+/*
 	@PostMapping("/tutorials")
 	public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial tutorial) {
 		Tutorial _tutorial = tutorialRepository
 				.save(new Tutorial(tutorial.getTitle(), tutorial.getDescription(), false));
 		return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
 	}
-
+*/
 	@PutMapping("/tutorials")
 	public ResponseEntity<Tutorial> updateTutorial(@RequestBody Tutorial tutorial) {
 		Optional<Tutorial> tutorialData = tutorialRepository.findById(tutorial.getId());
@@ -67,7 +67,7 @@ public class TutorialController {
 			_tutorial.setPublished(tutorial.isPublished());
 			return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
 

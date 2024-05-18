@@ -1,15 +1,19 @@
 package com.demo.app.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tutorials")
-public class Tutorial {
+@Table(name = "Tutorial")
+public class Tutorial implements Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,48 +27,50 @@ public class Tutorial {
 
   @Column(name = "published")
   private boolean published;
+  
+  @ManyToOne
+  @JoinColumn(name="personid", nullable=false)
+  private Person person;
 
-  public Tutorial() {
+public long getId() {
+	return id;
+}
 
-  }
+public void setId(long id) {
+	this.id = id;
+}
 
-  public Tutorial(String title, String description, boolean published) {
-    this.title = title;
-    this.description = description;
-    this.published = published;
-  }
+public String getTitle() {
+	return title;
+}
 
-  public long getId() {
-    return id;
-  }
+public void setTitle(String title) {
+	this.title = title;
+}
 
-  public String getTitle() {
-    return title;
-  }
+public String getDescription() {
+	return description;
+}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+public void setDescription(String description) {
+	this.description = description;
+}
 
-  public String getDescription() {
-    return description;
-  }
+public boolean isPublished() {
+	return published;
+}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+public void setPublished(boolean published) {
+	this.published = published;
+}
 
-  public boolean isPublished() {
-    return published;
-  }
+public Person getPerson() {
+	return person;
+}
 
-  public void setPublished(boolean isPublished) {
-    this.published = isPublished;
-  }
+public void setPerson(Person person) {
+	this.person = person;
+}
 
-  @Override
-  public String toString() {
-    return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
-  }
-
+ 
 }

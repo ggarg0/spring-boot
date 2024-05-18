@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.springbootdatabase.repository.PersonJdbcDao;
+import com.example.springbootdatabase.repository.PersonRepository;
 
 @SpringBootApplication
 public class SpringbootDatabaseApplication implements CommandLineRunner {
@@ -17,14 +17,14 @@ public class SpringbootDatabaseApplication implements CommandLineRunner {
 	}
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
-	PersonJdbcDao personDao;
+	PersonRepository personDao;
 
 	@Override
 	public void run(String... args) throws Exception {
 		logger.info("ALl Person Details :  " + personDao.findAll());
-		logger.info("ALl Person Details :  " + personDao.findAllPerson());
+
 	}
 
 }
